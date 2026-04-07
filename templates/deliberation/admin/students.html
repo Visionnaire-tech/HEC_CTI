@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+<h3>Liste des étudiants</h3>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Matricule</th>
+            <th>Nom</th>
+            <th>Promotion</th>
+            <th>Moyenne</th>
+            <th>Crédits</th>
+            <th>Décision</th>
+            <th>Détails</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    {% for r in results %}
+    <tr>
+        <td>{{ r.student.matricule }}</td>
+        <td>{{ r.student.nom }}</td>
+        <td>{{ r.student.promotion }}</td>
+        <td>{{ r.moyenne }}</td>
+        <td>{{ r.credits }}</td>
+
+        <td>
+            {% if r.decision == "ADM" %}
+                <span class="text-success">ADM</span>
+            {% elif r.decision == "AJ" %}
+                <span class="text-warning">AJ</span>
+            {% else %}
+                <span class="text-danger">DEF</span>
+            {% endif %}
+        </td>
+
+        <td>
+            <a href="{% url 'admin_student_detail' r.student.id %}" class="btn btn-sm btn-info">
+                Voir
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+</div>
+{% endblock %}

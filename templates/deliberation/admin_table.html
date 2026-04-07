@@ -1,0 +1,44 @@
+<h2>Délibération complète</h2>
+
+<table border="1">
+    <tr>
+        <th>Étudiant</th>
+
+        {% for ue in result.0.ues %}
+            <th colspan="{{ ue.courses|length }}">
+                {{ ue.ue.name }}
+            </th>
+            <th>Moy UE</th>
+        {% endfor %}
+
+        <th>Total crédits</th>
+        <th>Moyenne générale</th>
+    </tr>
+
+    <tr>
+        <td></td>
+
+        {% for ue in result.0.ues %}
+            {% for c in ue.courses %}
+                <td>{{ c.course.name }}</td>
+            {% endfor %}
+            <td></td>
+        {% endfor %}
+    </tr>
+
+    {% for row in result %}
+    <tr>
+        <td>{{ row.student.nom }}</td>
+
+        {% for ue in row.ues %}
+            {% for c in ue.courses %}
+                <td>{{ c.note }}</td>
+            {% endfor %}
+            <td>{{ ue.moyenne }}</td>
+        {% endfor %}
+
+        <td>{{ row.total_credits }}</td>
+        <td>{{ row.moyenne_generale }}</td>
+    </tr>
+    {% endfor %}
+</table>

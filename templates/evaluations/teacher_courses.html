@@ -1,0 +1,11 @@
+<h2>Mes cours</h2>
+
+<ul>
+{% for c in courses %}
+    <li>
+        {{ c.course.name }} -
+        {{ c.department }} -
+        {{ c.course.promotion }}
+    </li>
+{% endfor %}
+</ul>
