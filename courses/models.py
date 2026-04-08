@@ -2,7 +2,7 @@ from django.db import models
 from academics.models import Promotion, UE, Department
 
 from django.contrib.auth.models import User
-
+from accounts.models import Teacher
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 

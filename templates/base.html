@@ -1,45 +1,83 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}CTI Project{% endblock %}</title>
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="">CTI</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    {% if user.is_authenticated %}
-                        {% if is_admin %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'admin_dashboard' %}">Dashboard Admin</a></li>
-                        {% elif is_teacher %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'teacher_dashboard' %}">Accueil Enseignant</a></li>
-                        {% elif is_student %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'student_dashboard' %}">Accueil Étudiant</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'student_result' %}">Voir Résultats</a></li>
-                        {% endif %}
-                    {% endif %}
-                                    
-                </ul>
-            </div>
+<!-- ✅ NAVBAR PROPRE -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <!-- LOGO -->
+        <a class="navbar-brand" href="/">CTI</a>
+
+        <!-- BOUTON MOBILE -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- MENU -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+
+                <!-- 👤 NON CONNECTÉ -->
+                {% if not request.user.is_authenticated and not request.session.student_id %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'student_login' %}">Connexion étudiant</a>
+                    </li>
+                {% endif %}
+
+                <!-- 🎓 ETUDIANT -->
+                {% if request.session.student_id %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'student_result' %}">Résultat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
+                    </li>
+
+                <!-- 👨‍🏫 ENSEIGNANT -->
+                {% elif request.user.is_authenticated and request.user.teacher_profile %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'mes_cours' %}">Mes cours</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
+                    </li>
+
+                <!-- 🛠 ADMIN -->
+                {% elif request.user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'import_payments' %}">Import Paiement</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
+                    </li>
+                {% endif %}
+
+            </ul>
         </div>
-    </nav>
 
-    <div class="container mt-4">
-        {% block content %}
-        {% endblock %}
     </div>
+</nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- CONTENU -->
+<div class="container mt-4">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

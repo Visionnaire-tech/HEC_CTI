@@ -101,3 +101,15 @@ def student_result(request):
     result = calcul_deliberation(student)
 
     return render(request, 'deliberation/student_result.html', result)
+
+from django.contrib.auth import logout
+
+def custom_logout(request):
+    # 🔴 Déconnexion Django (enseignant/admin)
+    logout(request)
+
+    # 🔴 Suppression session étudiant
+    if 'student_id' in request.session:
+        del request.session['student_id']
+
+    return redirect('student_login')  # ou 'home'

@@ -24,14 +24,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 SECRET_KEY = 'django-insecure-1rpli!lkioa6+b8x&r&$fd%yrl4vqc60zakat326w!@)df2$ei'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-ALLOWED_HOSTS = ['hec-cti.onrender.com']
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+DEBUG = True
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://hec-cti.onrender.com'
-]
+ALLOWED_HOSTS = []
+
 #CSRF_TRUSTED_ORIGINS = [
  #   'https://hec-cti.onrender.com'
 #]
@@ -84,6 +80,11 @@ TEMPLATES = [
         },
     },
 ]
+
+TEMPLATES[0]['OPTIONS']['context_processors'] += [
+    'django.template.context_processors.request',
+]
+
 WSGI_APPLICATION = 'cti_project.wsgi.application'
 
 TEMPLATES[0]['DIRS'] = [os.path.join(BASE_DIR, 'templates')]

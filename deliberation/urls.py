@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views 
 from . import views_admin
+from .views import custom_logout
 from .views import admin_deliberation_view, student_login, student_dashboard
 urlpatterns = [
     path('login/', views.student_login, name='student_login'),
@@ -12,5 +13,6 @@ urlpatterns = [
     path('deliberation/<int:promotion_id>/', admin_deliberation_view, name='admin_deliberation'),
     path('login/', student_login, name='student_login'),
     path('dashboard/', student_dashboard, name='student_dashboard'),
+    path('logout/', custom_logout, name='logout'),
 
 ]
