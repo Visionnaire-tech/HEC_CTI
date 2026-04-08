@@ -1,8 +1,9 @@
 from django.db import models
-from academics.models import Student
+from academics.models import Student , Fee
 
 class Payment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    fee = models.ForeignKey(Fee, on_delete=models.CASCADE)  # 🔥 LIAISON FRAIS
 
     amount = models.FloatField()
     date = models.DateField(auto_now_add=True)
@@ -17,7 +18,5 @@ class Payment(models.Model):
 
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='VALID')
 
-    raw_name = models.CharField(max_length=255, blank=True, null=True)
-
     def __str__(self):
-        return f"{self.student} - {self.amount}"
+        return f"{self.student} - {self.fee} - {self.amount}"

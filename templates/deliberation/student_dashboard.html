@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
+{% block title %}Accueil Étudiant{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
+    <h4>Bienvenue {{ student.nom }} {{ student.prenom }}</h4>
 
-    <h4>Bienvenue {{ student.nom }}</h4>
-
-    <div class="card p-3">
+    <div class="card p-3 mb-3">
         <p><strong>Promotion :</strong> {{ student.promotion }}</p>
-        <p><strong>Section :</strong> {{ student.section }}</p>
-        <p><strong>Département :</strong> {{ student.department }}</p>
+        <p><strong>Section :</strong> {{ student.department.section }}</p>
+        <p><strong>Département :</strong> {{ student.department.name }}</p>
     </div>
 
     <a href="{% url 'student_result' %}" class="btn btn-success mt-3">
         Voir mes résultats
     </a>
-
 </div>
 {% endblock %}

@@ -82,3 +82,14 @@ class Student(models.Model):
         return f"{self.matricule} - {self.nom} {self.prenom}"
 
 # -----------------------------
+class Fee(models.Model):
+    name = models.CharField(max_length=100)  # Inscription, Minerval...
+    amount = models.FloatField()
+
+    semester = models.ForeignKey('academics.Semester', on_delete=models.CASCADE)
+    promotion = models.ForeignKey('academics.Promotion', on_delete=models.CASCADE)
+
+    obligatoire = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.promotion} - {self.semester}"

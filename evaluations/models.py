@@ -12,7 +12,9 @@ class Grade(models.Model):
     examen = models.FloatField(null=True, blank=True)
 
     def moyenne(self):
-        return (self.tp + self.interro + self.examen) / 3
+        if self.tp is not None and self.interro is not None and self.examen is not None:
+            return (self.tp + self.interro + self.examen) / 3
+        return 0
 
     moyenne.short_description = "Moyenne"
     
@@ -30,19 +32,21 @@ class Grade(models.Model):
     is_submitted = models.BooleanField(default=False)
 
     def calculer_note(self):
-        # Gestion absence
+    # Gestion absence
         if self.statut == 'ABS':
             self.note_finale = None
             return
 
-        # Calcul pondéré (exemple)
-        if self.tp is not None and self.interro is not None and self.examen is not None:
-            self.note_finale = (
+    # Vérification des valeurs
+        if all(v is not None for v in [self.tp, self.interro, self.examen]):
+            self.note_finale = round(
                 (self.tp * 0.3) +
                 (self.interro * 0.2) +
-                (self.examen * 0.5)
-            )
-
+                (self.examen * 0.5),
+            2
+        )
+        else:
+            self.note_finale = None
     def est_eliminatoire(self):
         # règle simple (<5)
         return self.note_finale is not None and self.note_finale < 5

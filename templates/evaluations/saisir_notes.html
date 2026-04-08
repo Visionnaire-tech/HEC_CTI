@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}Saisie des notes - {{ course.name }}{% endblock %}
+
 {% block content %}
 <h3 class="mb-4">Saisie des notes - {{ course.name }}</h3>
 
@@ -54,9 +56,8 @@
         </table>
     </div>
 
-    <button type="submit" class="btn btn-success">
+    <button type="submit" class="btn btn-success mt-3">
         💾 Enregistrer les notes
     </button>
 </form>
-
 {% endblock %}

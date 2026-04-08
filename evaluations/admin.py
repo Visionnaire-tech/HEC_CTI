@@ -8,7 +8,8 @@ class GradeAdmin(admin.ModelAdmin):
         'tp',
         'interro',
         'examen',
-        'moyenne'
+        'note_finale',
+        'statut'
     )
 
     list_filter = ('course',)

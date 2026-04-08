@@ -20,11 +20,12 @@ def calcul_deliberation(student):
         course = g.course
         ue = course.ue
 
-        note = g.value or 0
+        # ✅ CORRECTION ICI
+        note = g.note_finale or 0
         credit = course.credit
 
         # 🔴 élimination
-        if note < ELIMINATION_NOTE and course.elimination_strict:
+        if note < ELIMINATION_NOTE and getattr(course, 'elimination_strict', False):
             elimination = True
 
         # regroupement UE

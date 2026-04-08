@@ -1,56 +1,45 @@
-{% load static %}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>CTI - Gestion Académique</title>
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- CSS perso -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CTI Project{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="">CTI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-<!-- 🔷 NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">CTI</a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="menu">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Cours</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Notes</a></li>
-                <li class="nav-item"><a class="nav-link" href="/admin-notes/">Vérifier les notes</a>
-</li>
-                <li class="nav-item"><a class="nav-link" href="/mes-cours/">Mes cours</a>
-</li>
-            </ul>
-
-            <span class="text-white">Utilisateur</span>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        {% if is_admin %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'admin_dashboard' %}">Dashboard Admin</a></li>
+                        {% elif is_teacher %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'teacher_dashboard' %}">Accueil Enseignant</a></li>
+                        {% elif is_student %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'student_dashboard' %}">Accueil Étudiant</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'student_result' %}">Voir Résultats</a></li>
+                        {% endif %}
+                    {% endif %}
+                                    
+                </ul>
+            </div>
         </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
     </div>
-</nav>
 
-<!-- 🔷 CONTENU -->
-<div class="container mt-4">
-    {% block content %}
-    {% endblock %}
-</div>
-
-<!-- 🔷 FOOTER -->
-<footer class="bg-dark text-white text-center p-3 mt-5">
-    © 2025 CTI - Centre de Traitement Informatique
-</footer>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

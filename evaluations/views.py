@@ -40,7 +40,7 @@ def saisir_notes(request, assignment_id):
             grade.calculer_note()
             grade.save()
 
-        return redirect('teacher_courses')  # ou vers une autre page
+        return redirect('/notes/mes-cours/')  # redirection directe vers l’URL
 
     return render(request, 'evaluations/saisir_notes.html', {
         'course': course,

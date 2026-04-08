@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from academics.models import Student, UE
 from evaluations.models import Grade
 from .services import calcul_deliberation
