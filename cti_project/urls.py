@@ -4,12 +4,10 @@ from django.shortcuts import render
 from django.contrib.auth import views as auth_views
 from deliberation.views import custom_logout
 
-def home(request):
-    return render(request, 'home.html')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home),
+    
     path('notes/', include('evaluations.urls')),
     path('deliberation/', include('deliberation.urls')),
     path('', include('accounts.urls')),

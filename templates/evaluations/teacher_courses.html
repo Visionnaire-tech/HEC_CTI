@@ -1,11 +1,10 @@
 <h2>Mes cours</h2>
 
 <ul>
-{% for c in courses %}
-    <li>
-        {{ c.course.name }} -
-        {{ c.department }} -
-        {{ c.course.promotion }}
-    </li>
-{% endfor %}
+    {% for a in assignments %}
+        <li>
+            {{ a.course.name }} (Groupe {{ a.groupe }})
+            <a href="{% url 'saisir_notes' a.id %}">Saisir notes</a>
+        </li>
+    {% endfor %}
 </ul>

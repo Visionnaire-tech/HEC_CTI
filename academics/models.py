@@ -67,6 +67,12 @@ class Student(models.Model):
         max_length=10,
         choices=[('jour', 'Jour'), ('soir', 'Soir')]
     )
+    groupe = models.CharField(
+    max_length=10,
+    choices=[('A', 'A'), ('B', 'B')],
+    null=True,
+    blank=True
+    )
 
     statut = models.CharField(
         max_length=20,
@@ -77,6 +83,7 @@ class Student(models.Model):
         ],
         default='actif'
     )
+
 
     def __str__(self):
         return f"{self.matricule} - {self.nom} {self.prenom}"

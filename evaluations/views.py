@@ -6,11 +6,15 @@ from .models import Grade
 
 @login_required
 def saisir_notes(request, assignment_id):
-    # Récupère l'assignation du professeur correspondant à l'ID
-    assignment = get_object_or_404(CourseAssignment, id=assignment_id)
-    course = assignment.course  # <-- Correction ici
 
-    # Étudiants de la promotion et du département
+    assignment = get_object_or_404(
+        CourseAssignment,
+        id=assignment_id,
+        teacher=request.user.teacher
+    )
+
+    course = assignment.course
+
     students = Student.objects.filter(
         promotion=course.promotion,
         department=assignment.department
@@ -18,6 +22,7 @@ def saisir_notes(request, assignment_id):
 
     if request.method == "POST":
         for student in students:
+
             tp = request.POST.get(f"tp_{student.id}")
             interro = request.POST.get(f"interro_{student.id}")
             examen = request.POST.get(f"examen_{student.id}")
@@ -28,23 +33,19 @@ def saisir_notes(request, assignment_id):
                 course=course
             )
 
-            # Conversion des notes
             grade.tp = float(tp) if tp else None
             grade.interro = float(interro) if interro else None
             grade.examen = float(examen) if examen else None
-
-            # Statut (Absent ou Normal)
             grade.statut = statut
 
-            # Calcul automatique
             grade.calculer_note()
             grade.save()
 
-        return redirect('/notes/mes-cours/')  # redirection directe vers l’URL
+        return redirect("mes_cours")
 
-    return render(request, 'evaluations/saisir_notes.html', {
-        'course': course,
-        'students': students
+    return render(request, "evaluations/saisir_notes.html", {
+        "course": course,
+        "students": students
     })
 
 
@@ -102,11 +103,14 @@ def admin_notes(request):
         'data': data,
         'courses': courses
     })
+@login_required
 def teacher_courses(request):
     teacher = request.user.teacher
-
-    courses = teacher.courseassignment_set.all()
+    assignments = teacher.courseassignment_set.all()
 
     return render(request, "evaluations/teacher_courses.html", {
-        "courses": courses
+        "assignments": assignments
     })
+
+def home(request):
+    return render(request, 'home.html')

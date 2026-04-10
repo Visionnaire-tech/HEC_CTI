@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
-
+{% block navbar %}
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/">Admin</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'import_payments' %}">Import Paiement</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
+    </li>
+{% endblock %}
 {% block content %}
 
 <h3>Vérification des notes (Admin)</h3>

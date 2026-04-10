@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}CTI Project{% endblock %}</title>
+    <title>{% block title %}HEC-CTI{% endblock %}</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -25,44 +25,9 @@
         <!-- MENU -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                {% block navbar %}
 
-                <!-- 👤 NON CONNECTÉ -->
-                {% if not request.user.is_authenticated and not request.session.student_id %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'student_login' %}">Connexion étudiant</a>
-                    </li>
-                {% endif %}
-
-                <!-- 🎓 ETUDIANT -->
-                {% if request.session.student_id %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'student_result' %}">Résultat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
-                    </li>
-
-                <!-- 👨‍🏫 ENSEIGNANT -->
-                {% elif request.user.is_authenticated and request.user.teacher_profile %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'mes_cours' %}">Mes cours</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
-                    </li>
-
-                <!-- 🛠 ADMIN -->
-                {% elif request.user.is_superuser %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/">Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'import_payments' %}">Import Paiement</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
-                    </li>
-                {% endif %}
+                {% endblock %}
 
             </ul>
         </div>

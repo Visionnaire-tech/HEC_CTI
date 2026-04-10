@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% block navbar %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'student_login' %}">Connexion étudiant</a>
+</li>
+{% endblock %}
 
 {% block content %}
 

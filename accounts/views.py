@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from academics.models import Student
+from courses import views as course_views
 
 
 def student_login(request):
@@ -20,7 +21,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('/')
+            return redirect('mes_cours')
         else:
             return render(request, 'accounts/login.html', {
                 'error': 'Identifiants incorrects'
