@@ -24,12 +24,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 SECRET_KEY = 'django-insecure-1rpli!lkioa6+b8x&r&$fd%yrl4vqc60zakat326w!@)df2$ei'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
-ALLOWED_HOSTS = []
-#DEBUG = False
+#ALLOWED_HOSTS = []
+DEBUG = False
 
-#ALLOWED_HOSTS = ['hec-cti.onrender.com']
+ALLOWED_HOSTS = ['hec-cti.onrender.com']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://hec-cti.onrender.com'
