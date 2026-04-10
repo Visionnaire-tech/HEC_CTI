@@ -1,20 +1,55 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="container mt-4">
 
-<h3>Importer fichier bancaire</h3>
+    <h3>Importer les étudiants</h3>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+    <!-- 🔥 ICI TU AJOUTES LE MESSAGE -->
+    {% if success %}
+    <div class="alert alert-success">
+        {{ success }}
+    </div>
+    {% endif %}
 
-    <input type="file" name="file" class="form-control mb-3" required>
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
 
-    <button class="btn btn-success">
-        Importer
-    </button>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
 
-</form>
+        <label>Promotion</label>
+        <select name="promotion" class="form-control" required>
+            {% for p in promotions %}
+                <option value="{{ p.id }}">{{ p.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Département</label>
+        <select name="department" class="form-control" required>
+            {% for d in departments %}
+                <option value="{{ d.id }}">{{ d.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Vacation</label>
+        <select name="vacation" class="form-control" required>
+            <option value="jour">Jour</option>
+            <option value="soir">Soir</option>
+        </select>
+
+        <input type="file" name="file" class="form-control" accept=".xlsx" required>
+
+        <button type="submit" class="btn btn-primary mt-3">
+            Importer
+        </button>
+
+    </form>
 
 </div>
+
 {% endblock %}

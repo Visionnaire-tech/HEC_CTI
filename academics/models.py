@@ -58,6 +58,7 @@ class Student(models.Model):
     nom = models.CharField(max_length=100)
     postnom = models.CharField(max_length=100)
     prenom = models.CharField(max_length=100)
+    genre = models.CharField(max_length=10, default="M")
 
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     promotion = models.ForeignKey(Promotion, on_delete=models.SET_NULL, null=True)
