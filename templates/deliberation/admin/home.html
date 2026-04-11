@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h2>🎛️ Administration CTI</h2>
+
+    <div class="row mt-4">
+
+        <div class="col-md-3">
+            <a href="{% url 'import_payments' %}" class="btn btn-success w-100 mb-2">
+                📥 Import Étudiants
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <form method="get" action="{% url 'export_excel' 1 %}">
+                <select name="promotion_id" class="form-control mb-2">
+                    {% for promo in promotions %}
+                        <option value="{{ promo.id }}">{{ promo.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    📊 Exporter vers Excel
+                </button>
+            </form>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'admin_students' %}" class="btn btn-info w-100 mb-2">
+                👨🎓 Étudiants
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'admin_courses' %}" class="btn btn-warning w-100 mb-2">
+                📚 Cours
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'admin_assignments' %}" class="btn btn-dark w-100 mb-2">
+                🧑‍🏫 Assignations
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'admin_teachers' %}" class="btn btn-secondary w-100 mb-2">
+                👨🏫 Enseignants
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'admin_ues' %}" class="btn btn-danger w-100 mb-2">
+                📘 UE
+            </a>
+        </div>
+       
+
+
+    </div>
+</div>
+
+{% endblock %}

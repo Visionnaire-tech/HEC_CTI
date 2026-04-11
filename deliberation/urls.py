@@ -2,7 +2,7 @@ from django.urls import path
 from . import views 
 from . import views_admin
 from .views import custom_logout
-from .views import admin_deliberation_view, student_login, student_dashboard
+from .views import admin_deliberation_view, student_login, student_dashboard, export_excel_view, student_pdf_view
 urlpatterns = [
     path('login/', views.student_login, name='student_login'),
     path('dashboard/', views.student_dashboard, name='student_dashboard'),
@@ -14,5 +14,7 @@ urlpatterns = [
     path('login/', student_login, name='student_login'),
     path('dashboard/', student_dashboard, name='student_dashboard'),
     path('logout/', custom_logout, name='logout'),
+    path('export-excel/<int:promotion_id>/', export_excel_view, name='export_excel'),
+    path('bulletin/<int:student_id>/', student_pdf_view, name='student_pdf'),
 
 ]

@@ -14,29 +14,80 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
 
-        <!-- LOGO -->
         <a class="navbar-brand" href="/">CTI</a>
 
-        <!-- BOUTON MOBILE -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="collapse navbar-collapse">
 
-        <!-- MENU -->
-        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                {% block navbar %}
 
-                {% endblock %}
+                {% if request.user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_home' %}">Dashboard</a>
+                    </li>
+                {% endif %}
+
+                {% if request.session.student_id %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'student_result' %}">Résultat</a>
+                    </li>
+                {% endif %}
+
+                {% if request.user.is_authenticated and request.user.teacher_profile %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'mes_cours' %}">
+                            Mes cours 
+                            <span class="badge bg-success">
+                                {{ courses_count|default:0 }}
+                            </span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if request.user.is_authenticated or request.session.student_id %}
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{% url 'logout' %}">
+                            Déconnexion
+                        </a>
+                    </li>
+                {% endif %}
 
             </ul>
-        </div>
 
+        </div>
     </div>
 </nav>
+<style>
+table {
+    font-size: 12px;
+}
 
+th {
+    background-color: #343a40;
+    color: white;
+}
+
+td {
+    background-color: #fff;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+</style>
+<style>
+@media print {
+    body {
+        font-size: 10px;
+    }
+
+    table {
+        page-break-inside: avoid;
+    }
+}
+</style>
 <!-- CONTENU -->
 <div class="container mt-4">
+
     {% block content %}
     {% endblock %}
 </div>

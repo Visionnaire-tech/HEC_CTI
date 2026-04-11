@@ -1,44 +1,78 @@
-<h2>Délibération complète</h2>
+{% extends "base.html" %}
+{% block content %}
 
-<table border="1">
+<div class="container-fluid">
+
+<h3 class="text-center">📊 GRILLE DE DÉLIBÉRATION</h3>
+
+<div class="table-responsive">
+<table class="table table-bordered table-sm text-center align-middle">
+
+    <!-- 🔥 HEADER UE -->
     <tr>
-        <th>Étudiant</th>
+        <th rowspan="3">N°</th>
+        <th rowspan="3">Nom</th>
 
-        {% for ue in result.0.ues %}
-            <th colspan="{{ ue.courses|length }}">
-                {{ ue.ue.name }}
+        {% for ue in ues %}
+            <th colspan="{{ ue.course_set.all|length }}">
+                {{ ue.name }}
             </th>
-            <th>Moy UE</th>
+            <th rowspan="2">Moy UE</th>
         {% endfor %}
 
-        <th>Total crédits</th>
-        <th>Moyenne générale</th>
+        <th rowspan="3">Moy Gén</th>
+        <th rowspan="3">Décision</th>
     </tr>
 
+    <!-- 🔥 COURS -->
     <tr>
-        <td></td>
-
-        {% for ue in result.0.ues %}
-            {% for c in ue.courses %}
-                <td>{{ c.course.name }}</td>
+        {% for ue in ues %}
+            {% for course in ue.course_set.all %}
+                <th>{{ course.name }}</th>
             {% endfor %}
-            <td></td>
         {% endfor %}
     </tr>
 
-    {% for row in result %}
+    <!-- 🔥 CRÉDIT -->
     <tr>
+        {% for ue in ues %}
+            {% for course in ue.course_set.all %}
+                <th>{{ course.credit }}</th>
+            {% endfor %}
+            <th>-</th>
+        {% endfor %}
+    </tr>
+
+    <!-- 🔥 DATA ÉTUDIANTS -->
+    {% for row in students_data %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
         <td>{{ row.student.nom }}</td>
 
         {% for ue in row.ues %}
             {% for c in ue.courses %}
                 <td>{{ c.note }}</td>
             {% endfor %}
-            <td>{{ ue.moyenne }}</td>
+            <td><strong>{{ ue.moyenne }}</strong></td>
         {% endfor %}
 
-        <td>{{ row.total_credits }}</td>
-        <td>{{ row.moyenne_generale }}</td>
+        <td><strong>{{ row.moyenne|floatformat:2 }}</strong></td>
+
+        <td>
+            {% if row.decision == "ADM" %}
+                <span class="badge bg-success">ADM</span>
+            {% elif row.decision == "AJ" %}
+                <span class="badge bg-warning">AJ</span>
+            {% else %}
+                <span class="badge bg-danger">DEF</span>
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
+
 </table>
+</div>
+
+</div>
+
+{% endblock %}

@@ -10,7 +10,9 @@
     </li>
 {% endblock %}
 {% block content %}
-
+    <a href="{% url 'export_excel' promotion_id %}" class="btn btn-primary w-100 mb-2">
+    📊 Exporter vers Excel
+</a>
 <div class="container mt-4">
     <h4>Bienvenue {{ student.nom }} {{ student.prenom }}</h4>
 

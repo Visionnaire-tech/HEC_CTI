@@ -20,34 +20,31 @@ def calcul_deliberation(student):
         course = g.course
         ue = course.ue
 
-        # ✅ CORRECTION ICI
         note = g.note_finale or 0
         credit = course.credit
 
-        # 🔴 élimination
-        if note < ELIMINATION_NOTE and getattr(course, 'elimination_strict', False):
-            elimination = True
+        tnp = note * credit  # 🔥 IMPORTANT
 
-        # regroupement UE
         if ue.id not in ue_data:
             ue_data[ue.id] = {
                 'ue': ue,
-                'notes': [],
-                'total': 0,
-                'coeff': 0,
+                'courses': [],
+                'total_tnp': 0,
+                'total_credit': 0,
                 'credits': ue.credit
             }
 
-        ue_data[ue.id]['notes'].append({
+        ue_data[ue.id]['courses'].append({
             'course': course,
             'note': note,
-            'credit': credit
+            'credit': credit,
+            'tnp': tnp
         })
 
-        ue_data[ue.id]['total'] += note * credit
-        ue_data[ue.id]['coeff'] += credit
+        ue_data[ue.id]['total_tnp'] += tnp
+        ue_data[ue.id]['total_credit'] += credit
 
-        total_points += note * credit
+        total_points += tnp
         total_coeff += credit
 
     # 🎯 calcul UE
